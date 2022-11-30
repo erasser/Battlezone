@@ -11,24 +11,55 @@ public class Vehicle : MonoBehaviour
     [Tooltip("Tvrdost tlumiče.")]
     public float dampening = 100;   // 6000
     float _lastHitDist;
+    float _forwardPower;
+    float _sidePower;
 
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
     }
 
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.W))
+        {
+            _forwardPower += .04f;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            _forwardPower = 0;
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            _sidePower = -.8f;
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            _sidePower = .8f;
+        }
+        else
+            _sidePower = 0;
+    }
+
     void FixedUpdate()
     {
-        // gravity
+        // hover
         if (Physics.Raycast(_rb.transform.position, _rb.transform.TransformDirection(_vector3Down), out var hit, length))
         {
             float forceAmount = HooksLawDampen(hit.distance);
 
-            // _rb.AddForceAtPosition(_rb.transform.up * forceAmount, _rb.transform.position);
             _rb.AddForce(_rb.transform.up * forceAmount);
         }
         else
             _lastHitDist = 1.1f * length;
+
+        // forward movement
+        
+        // _rb.AddForce(_rb.transform.right * _forwardPower, ForceMode.Impulse);
+        // _rb.AddForce(_rb.transform.forward * _forwardPower, ForceMode.Impulse);
+        // _rb.AddForce(_rb.transform.right * _sidePower * 10000, ForceMode.Impulse);
+
+        // _rb.AddForce(_rb.transform.right * 80, ForceMode.Impulse);
     }
     
     float HooksLawDampen(float hitDistance)
