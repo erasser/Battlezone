@@ -11,7 +11,7 @@ public class GameController : MonoBehaviour
         // Time.timeScale = .2f;
         
         #if UNITY_EDITOR
-            UnityEditor.SceneView.FocusWindowIfItsOpen(typeof(UnityEditor.SceneView));  // Don't auto-switch to the Game tab
+            // UnityEditor.SceneView.FocusWindowIfItsOpen(typeof(UnityEditor.SceneView));  // Don't auto-switch to the Game tab
         #endif
 
         actualVehicle = vehicle1;
