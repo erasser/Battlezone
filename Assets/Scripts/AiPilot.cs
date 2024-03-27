@@ -17,7 +17,7 @@ public class AiPilot : MonoBehaviour
     Tank _tank;
     Vector3 _toPathPointV3;
     LineRenderer _lineRenderer;
-    bool _needsPathRegeneration;
+    bool _needsNewTarget;
 
     enum Behaviour
     {
@@ -41,14 +41,23 @@ public class AiPilot : MonoBehaviour
         StartCoroutine(LazyUpdate());
     }
 
-    void GetRandomTarget()
+    bool GetRandomTarget()
     {
         float a = 100;
         _targetPosition = new(Random.Range(- a, a), 0, Random.Range(- a, a));
-        if (GeneratePathTo(_targetPosition))
-            SetState(State.GoingToTarget);
-        else
+
+        GeneratePathTo(_targetPosition);
+
+        if (!GeneratePathTo(_targetPosition))
+        {
             print("New random target NOT got.");
+            SetState(State.StandingStill);
+            _needsNewTarget = true;
+            return false;
+        }
+
+        SetState(State.GoingToTarget);
+        return true;
     }
 
     void Update()
@@ -67,11 +76,12 @@ public class AiPilot : MonoBehaviour
             {
                 Debug.LogWarning("Path was NOT generated!");
 
-                if (_state == State.GoingToTarget)
-                {
-                    _needsPathRegeneration = true;
-                    Debug.LogWarning("TODO: To bude chtít ošetřit kvalitněji. Optimálně by k tomu mohle ndojít :).");  // TODO
-                }
+                // if (_state == State.GoingToTarget)
+                // {
+                //         SetState(State.StandingStill);
+                //         _needsNewTarget = true;
+                //         Debug.LogWarning("TODO: To bude chtít ošetřit kvalitněji. Optimálně by k tomu mohle ndojít :).");  // TODO
+                // }
             }
 
             return false;
@@ -81,7 +91,7 @@ public class AiPilot : MonoBehaviour
         _pathPoints.AddRange(_navMeshPath.corners);
         _actualPathPointIndex = 1;  // index = 0 is at actual agent position
 
-        ShowPath();
+        // ShowPath();
 
         return true;
     }
@@ -112,15 +122,11 @@ public class AiPilot : MonoBehaviour
 
     bool IsPathPointReached()
     {
-        // if (_toPathPointV3.sqrMagnitude < 10)
-        //     print("- Path point reached.");
         return _toPathPointV3.sqrMagnitude < 10;
     }
 
     bool IsTargetReached()
     {
-        // if (_actualPathPointIndex == _pathPoints.Count)
-        //     print("• Target reached.");
         return _actualPathPointIndex == _pathPoints.Count;
     }
 
@@ -144,14 +150,14 @@ public class AiPilot : MonoBehaviour
             // TODO: stačí .DOT
             var angle = Vector3.SignedAngle(_toPathPointV3, transform.forward, Vector3.up);
         
-            if (angle < - 0)
+            if (angle < - 2)
             {
-                _tank.controlsLeftRight = +1;
+                _tank.controlsLeftRight = 1;
                 // _tank.controlsForward = 1;
             }
-            else if (angle > 0)
+            else if (angle > 2)
             {
-                _tank.controlsLeftRight = -1;
+                _tank.controlsLeftRight = - 1;
                 // _tank.controlsForward = 1;
             }
             else
@@ -199,11 +205,15 @@ public class AiPilot : MonoBehaviour
 
     void ProcessLazyUpdate()
     {
-        if (_needsPathRegeneration)
+        if (_needsNewTarget)
         {
-            ReGeneratePath();
-
-            _needsPathRegeneration = false;
+            print("regenerating path");
+            if (GetRandomTarget())
+            {
+                print("OK");
+                _needsNewTarget = false;
+                SetState(State.GoingToTarget);
+            }
         }
     }
 }
