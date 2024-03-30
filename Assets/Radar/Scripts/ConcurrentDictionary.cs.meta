@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 640a938d9d02a9b4087a717ca8fb1fec
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 229817
+  packageName: RaycastRadar
+  packageVersion: 0.4.0
+  assetPath: Assets/Radar/Scripts/ConcurrentDictionary.cs
+  uploadId: 550151

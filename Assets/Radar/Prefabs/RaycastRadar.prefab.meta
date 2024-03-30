@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 5872ae79cd029af4e92fd1998bb8111f
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 229817
+  packageName: RaycastRadar
+  packageVersion: 0.4.0
+  assetPath: Assets/Radar/Prefabs/RaycastRadar.prefab
+  uploadId: 550151

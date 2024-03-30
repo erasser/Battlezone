@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 489c05d839c0c6147be375822237f28a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 229817
+  packageName: RaycastRadar
+  packageVersion: 0.4.0
+  assetPath: Assets/Radar/Scripts/RaycastRadar.cs
+  uploadId: 550151

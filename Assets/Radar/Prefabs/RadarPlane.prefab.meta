@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ff197685472b28e4ea045725ad468735
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 229817
+  packageName: RaycastRadar
+  packageVersion: 0.4.0
+  assetPath: Assets/Radar/Prefabs/RadarPlane.prefab
+  uploadId: 550151

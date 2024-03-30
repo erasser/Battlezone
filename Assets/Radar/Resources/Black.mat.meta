@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 317d5909bdc75a246bcf5b8bfeeff152
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 229817
+  packageName: RaycastRadar
+  packageVersion: 0.4.0
+  assetPath: Assets/Radar/Resources/Black.mat
+  uploadId: 550151

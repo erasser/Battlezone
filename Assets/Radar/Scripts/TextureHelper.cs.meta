@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 2ea190e3d948ee14abf3b098f71f87ce
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 229817
+  packageName: RaycastRadar
+  packageVersion: 0.4.0
+  assetPath: Assets/Radar/Scripts/TextureHelper.cs
+  uploadId: 550151

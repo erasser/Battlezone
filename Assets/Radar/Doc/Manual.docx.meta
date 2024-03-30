@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 6ebaa942c8b0ee1409db625d82b767dd
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 229817
+  packageName: RaycastRadar
+  packageVersion: 0.4.0
+  assetPath: Assets/Radar/Doc/Manual.docx
+  uploadId: 550151

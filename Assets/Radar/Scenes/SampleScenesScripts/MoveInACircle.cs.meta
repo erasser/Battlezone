@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: d4e29f1356902474badf672d3abe360d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 229817
+  packageName: RaycastRadar
+  packageVersion: 0.4.0
+  assetPath: Assets/Radar/Scenes/SampleScenesScripts/MoveInACircle.cs
+  uploadId: 550151

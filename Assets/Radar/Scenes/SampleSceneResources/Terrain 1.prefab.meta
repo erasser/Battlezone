@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 72f42f3d9c04f394a9df5f3fecee9f3e
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 229817
+  packageName: RaycastRadar
+  packageVersion: 0.4.0
+  assetPath: Assets/Radar/Scenes/SampleSceneResources/Terrain 1.prefab
+  uploadId: 550151

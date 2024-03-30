@@ -8,6 +8,7 @@ public class PlayerPilot : MonoBehaviour
     void Start()
     {
         _tank = GetComponent<Tank>();
+        GC.player = _tank;
     }
 
     void Update()
@@ -32,8 +33,8 @@ public class PlayerPilot : MonoBehaviour
 
     void ProcessControlsMobile()
     {
-        _tank.controlsForward = GC.joystick.Vertical;
-        _tank.controlsLeftRight = GC.joystick.Horizontal;
-        print(GC.joystick.Vertical);
+        _tank.controlsForward = GameController.GC.floatingJoystick.Vertical;
+        _tank.controlsLeftRight = GameController.GC.floatingJoystick.Horizontal * .3f;
     }
+
 }

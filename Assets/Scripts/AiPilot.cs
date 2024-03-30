@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
+using static GameController;
 
 public class AiPilot : MonoBehaviour
 {
@@ -33,12 +35,13 @@ public class AiPilot : MonoBehaviour
     void Start()
     {
         _tank = GetComponent<Tank>();
+        GC.enemies.Add(_tank);
         tr = transform;
         _navMeshPath = new();
         _lineRenderer = GetComponent<LineRenderer>();
         GetRandomTarget();
 
-        StartCoroutine(LazyUpdate());
+        StartCoroutine(LazyUpdateLoop());
     }
 
     bool GetRandomTarget()
@@ -194,7 +197,7 @@ public class AiPilot : MonoBehaviour
         // }
     }
 
-    IEnumerator LazyUpdate()
+    IEnumerator LazyUpdateLoop()
     {
         for(;;)
         {
