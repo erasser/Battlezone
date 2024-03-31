@@ -14,6 +14,7 @@ public class Radar : MonoBehaviour
     Vector2 _halfSize;
     RectTransform _rectTransform;
     float _radius;
+    float _radiusWithoutBorder;
 
     void Start()
     {
@@ -21,14 +22,16 @@ public class Radar : MonoBehaviour
         _texture = new (textureSize, textureSize);
         _halfSize = new(textureSize / 2f, textureSize / 2f);
         SceneToRadarRatio = groundSize / textureSize;
-        // RadarToSceneRatio = textureSize / groundSize;
+        RadarToSceneRatio = textureSize / groundSize;
         _rectTransform = GetComponent<RectTransform>();
         _radius = textureSize / 2f;
+        float borderWidth = 1;
+        _radiusWithoutBorder = _radius - borderWidth;
 
         GetComponent<Image>().material.mainTexture = _texture;
 
-        FilledCircle(_halfSize, _radius, 1);
-
+        FilledCircle(_halfSize, _radius, borderWidth);
+        GenerateTerrain();
         _textureBackground.Apply();
 
         StartCoroutine(RadarUpdateLoop());
@@ -76,10 +79,10 @@ public class Radar : MonoBehaviour
         foreach (Tank enemy in GameController.GC.enemies)
         {
             pos = enemy.transform.position;
-            DrawPoint(ScenePointToRadarPoint(pos), Color.red);
+            DrawPoint(_texture, ScenePointToRadarPoint(pos), Color.red);
         }
-        
-        DrawPoint(ScenePointToRadarPoint(GameController.GC.player.transform.position), Color.green);
+
+        DrawPoint(_texture, ScenePointToRadarPoint(GameController.GC.player.transform.position), Color.green);
 
         _texture.Apply();
     }
@@ -94,31 +97,58 @@ public class Radar : MonoBehaviour
         return SceneToRadarRatio * new Vector2(point.x, point.z) + _halfSize;
     }
 
-    // void SetPixel(Vector2 pixel, Color color)
-    // {
-    //     _texture.SetPixel((int)pixel.x, (int)pixel.y, color);
-    // }
-
-    void SetPixel(float x, float y, Color color)
+    Vector3 RadarToScenePoint(Vector2 point, float y = 0)
     {
-        _texture.SetPixel((int)x, (int)y, color);
-        // _texture.Apply();
+        point -= _halfSize;
+        return RadarToSceneRatio * (new Vector3(point.x, y, point.y));
     }
 
-    void DrawPoint(Vector2 point, Color color)
+    void SetPixel(Texture2D texture, Vector2 pixel, Color color, bool checkRadius = false)
+    {
+        if (checkRadius && !IsPointInRadius(pixel))
+            return;
+
+        texture.SetPixel((int)pixel.x, (int)pixel.y, color);  // todo: texture as argument
+    }
+
+    void SetPixel(Texture2D texture, float x, float y, Color color)
+    {
+        texture.SetPixel((int)x, (int)y, color);
+    }
+
+    void DrawPoint(Texture2D texture, Vector2 point, Color color)
     {
         if (!IsPointInRadius(point))
             return;
 
-        SetPixel(point.x - 1, point.y - 1, color);
-        SetPixel(point.x - 1, point.y, color);
-        SetPixel(point.x, point.y - 1, color);
-        SetPixel(point.x, point.y, color);
+        SetPixel(texture, point.x - 1, point.y - 1, color);
+        SetPixel(texture, point.x - 1, point.y, color);
+        SetPixel(texture, point.x, point.y - 1, color);
+        SetPixel(texture, point.x, point.y, color);
     }
 
     bool IsPointInRadius(Vector2 point)
     {
-        return Mathf.Pow(point.x - _halfSize.x, 2) + Mathf.Pow(point.y - _halfSize.y, 2) < Mathf.Pow(_radius, 2);
+        return Mathf.Pow(point.x - _halfSize.x, 2) + Mathf.Pow(point.y - _halfSize.y, 2) < Mathf.Pow(_radiusWithoutBorder, 2);
+    }
+
+    void GenerateTerrain()
+    {
+        RaycastHit hit;
+
+        for (float y = 0; y < _textureBackground.height; y += .5f)
+            for (float x = 0; x < _textureBackground.width; x += .5f)
+            {
+                var origin = RadarToScenePoint(new(x, y), 20);
+
+                if (!Physics.Raycast(origin, Vector3.down, out hit, Mathf.Infinity, 1 << GameController.GC.shootableEnvironmentLayer)
+                    || hit.point.y < .1f)
+                    continue;
+
+                // SetPixel(_textureBackground, ScenePointToRadarPoint(hit.point), Color.grey);
+                float colorValue = (hit.point.y * 14 + 5) / 255;
+                SetPixel(_textureBackground, ScenePointToRadarPoint(hit.point), new (colorValue, colorValue + .1f, colorValue), true);
+            }
     }
 
 }
