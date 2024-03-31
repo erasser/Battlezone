@@ -5,6 +5,7 @@ using static GameController;
 
 public class Tank : MonoBehaviour
 {
+    public float speed = 0;
     [HideInInspector]
     public float controlsForward;
     [HideInInspector]
@@ -36,7 +37,7 @@ public class Tank : MonoBehaviour
     {
         AutoShoot();
 
-        _forwardVector = 6 * controlsForward * Time.deltaTime * transform.forward;
+        _forwardVector = speed * controlsForward * Time.deltaTime * transform.forward;
 // TODO: Pokud to budou collidery a ne triggery, tohle nebude zapotřebí
         if (CompareTag("Enemy") || !Physics.BoxCast(transform.position, _halvesExtents, _forwardVector, transform.rotation, _forwardVector.magnitude))
         {
