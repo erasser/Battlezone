@@ -32,10 +32,10 @@ public class AiPilot : MonoBehaviour
         GoingToTarget
     }
 
-    void Start()
+    void Awake()
     {
         _tank = GetComponent<Tank>();
-        GC.enemies.Add(_tank);
+        Enemies.Add(_tank);
         tr = transform;
         _navMeshPath = new();
         _lineRenderer = GetComponent<LineRenderer>();

@@ -14,8 +14,8 @@ public class GameController : MonoBehaviour
     public int shootableEnemyLayer;
     [HideInInspector]
     public int shootableEnvironmentLayer;
-    public List<Tank> enemies = new();
-    public Tank player;
+    public static List<Tank> Enemies = new();
+    public static Tank Player;
 
     void Awake()
     {

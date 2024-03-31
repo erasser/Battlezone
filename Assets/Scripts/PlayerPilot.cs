@@ -5,10 +5,10 @@ public class PlayerPilot : MonoBehaviour
 {
     Tank _tank;
 
-    void Start()
+    void Awake()
     {
         _tank = GetComponent<Tank>();
-        GC.player = _tank;
+        Player = _tank;
     }
 
     void Update()

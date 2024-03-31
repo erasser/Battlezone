@@ -1,7 +1,7 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using static GameController;
 
 public class Radar : MonoBehaviour
 {
@@ -15,12 +15,13 @@ public class Radar : MonoBehaviour
     RectTransform _rectTransform;
     float _radius;
     float _radiusWithoutBorder;
+    float _zoom = 2;
 
     void Start()
     {
         _textureBackground = new (textureSize, textureSize);
         _texture = new (textureSize, textureSize);
-        _halfSize = new(textureSize / 2f, textureSize / 2f);
+        _halfSize = new Vector2 (textureSize, textureSize) / 2f;
         SceneToRadarRatio = groundSize / textureSize;
         RadarToSceneRatio = textureSize / groundSize;
         _rectTransform = GetComponent<RectTransform>();
@@ -31,7 +32,8 @@ public class Radar : MonoBehaviour
         GetComponent<Image>().material.mainTexture = _texture;
 
         FilledCircle(_halfSize, _radius, borderWidth);
-        GenerateTerrain();
+        // DrawPlayerSightLines(_textureBackground);
+        // GenerateTerrain();
         _textureBackground.Apply();
 
         StartCoroutine(RadarUpdateLoop());
@@ -76,31 +78,32 @@ public class Radar : MonoBehaviour
         Graphics.CopyTexture(_textureBackground, _texture);
         Vector3 pos;
 
-        foreach (Tank enemy in GameController.GC.enemies)
+        foreach (Tank enemy in Enemies)
         {
             pos = enemy.transform.position;
             DrawPoint(_texture, ScenePointToRadarPoint(pos), Color.red);
         }
 
-        DrawPoint(_texture, ScenePointToRadarPoint(GameController.GC.player.transform.position), Color.green);
+        // DrawPoint(_texture, ScenePointToRadarPoint(Player.transform.position), Color.green);
 
         _texture.Apply();
     }
 
     void Update()
     {
-        _rectTransform.eulerAngles = new(0, 0, GameController.GC.player.transform.eulerAngles.y);        
+        _rectTransform.eulerAngles = new(0, 0, Player.transform.eulerAngles.y);        
     }
 
     Vector2 ScenePointToRadarPoint(Vector3 point)
     {
-        return SceneToRadarRatio * new Vector2(point.x, point.z) + _halfSize;
+        point -= Player.transform.position;
+        return SceneToRadarRatio * _zoom * new Vector2(point.x, point.z) + _halfSize;
     }
 
     Vector3 RadarToScenePoint(Vector2 point, float y = 0)
     {
         point -= _halfSize;
-        return RadarToSceneRatio * (new Vector3(point.x, y, point.y));
+        return RadarToSceneRatio / _zoom * new Vector3(point.x, y, point.y) + Player.transform.position;
     }
 
     void SetPixel(Texture2D texture, Vector2 pixel, Color color, bool checkRadius = false)
@@ -132,7 +135,7 @@ public class Radar : MonoBehaviour
         return Mathf.Pow(point.x - _halfSize.x, 2) + Mathf.Pow(point.y - _halfSize.y, 2) < Mathf.Pow(_radiusWithoutBorder, 2);
     }
 
-    void GenerateTerrain()
+    void GenerateTerrain()  // TODO: To bude chtít asi další texturu...
     {
         RaycastHit hit;
 
@@ -150,5 +153,28 @@ public class Radar : MonoBehaviour
                 SetPixel(_textureBackground, ScenePointToRadarPoint(hit.point), new (colorValue, colorValue + .1f, colorValue), true);
             }
     }
+
+    void DrawPlayerSightLines(Texture2D texture)  // TODO
+    {
+        Color color = new(0, .5f, 0);
+        var o = _radius / Mathf.Sqrt(2);
+        DrawLine(texture, _halfSize, new(_halfSize.x - o, _halfSize.y + o), color);
+        DrawLine(texture, _halfSize, new(_halfSize.x + o, _halfSize.y + o), color);
+    }
+
+    void DrawLine(Texture2D texture, Vector2 p1, Vector2 p2, Color color)
+    {
+        Vector2 t = p1;
+        float frac = 1 / Mathf.Sqrt(Mathf.Pow(p2.x - p1.x, 2) + Mathf.Pow(p2.y - p1.y, 2));
+        float ctr = 0;
+
+        while ((int)t.x != (int)p2.x || (int)t.y != (int)p2.y)
+        {
+            t = Vector2.Lerp(p1, p2, ctr);
+            ctr += frac;
+            texture.SetPixel((int)t.x, (int)t.y, color);
+        }
+    }
+
 
 }

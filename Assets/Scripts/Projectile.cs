@@ -52,7 +52,7 @@ public class Projectile : MonoBehaviour
             // _forwardVector = Vector3.zero;  // for debug
             if (!_raycastHit.collider.gameObject.CompareTag("environment"))
             {
-                GC.enemies.Remove(_raycastHit.collider.gameObject.GetComponent<Tank>());
+                Enemies.Remove(_raycastHit.collider.gameObject.GetComponent<Tank>());
                 Destroy(_raycastHit.collider.gameObject);
             }
 
