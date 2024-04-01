@@ -19,7 +19,7 @@ public class AiPilot : MonoBehaviour
     Tank _tank;
     Vector3 _toPathPointV3;
     LineRenderer _lineRenderer;
-    bool _needsNewTarget;
+    // bool _needsNewTarget;
 
     enum Behaviour
     {
@@ -46,18 +46,17 @@ public class AiPilot : MonoBehaviour
 
     bool GetRandomTarget()
     {
-        float a = 100;
-        _targetPosition = new(Random.Range(- a, a), 0, Random.Range(- a, a));
+        _targetPosition = new(Random.Range(- GroundSize / 2, GroundSize / 2), 0, Random.Range(- GroundSize / 2, GroundSize / 2));
 
         GeneratePathTo(_targetPosition);
 
-        if (!GeneratePathTo(_targetPosition))
-        {
-            print("New random target NOT got.");
-            SetState(State.StandingStill);
-            _needsNewTarget = true;
-            return false;
-        }
+        // if (!GeneratePathTo(_targetPosition))
+        // {
+        //     print("New random target NOT got.");
+        //     SetState(State.StandingStill);
+        //     _needsNewTarget = true;
+        //     return false;
+        // }
 
         SetState(State.GoingToTarget);
         return true;
@@ -68,40 +67,22 @@ public class AiPilot : MonoBehaviour
         UpdateTransform();
     }
 
-    bool GeneratePathTo(Vector3 targetLocation)
+    void GeneratePathTo(Vector3 targetLocation)
     {
-        // var result = NavMesh.CalculatePath(new(tr.position.x, 0, tr.position.z), targetLocation, NavMesh.AllAreas, _navMeshPath);
-        var result = NavMesh.CalculatePath(transform.position, targetLocation, NavMesh.AllAreas, _navMeshPath);
-
-        if (!result)
-        {
-            if (!result)
-            {
-                Debug.LogWarning("Path was NOT generated!");
-
-                // if (_state == State.GoingToTarget)
-                // {
-                //         SetState(State.StandingStill);
-                //         _needsNewTarget = true;
-                //         Debug.LogWarning("TODO: To bude chtít ošetřit kvalitněji. Optimálně by k tomu mohle ndojít :).");  // TODO
-                // }
-            }
-
-            return false;
-        }
+        NavMeshHit hit;
+        NavMesh.SamplePosition(targetLocation, out hit, Mathf.Infinity, NavMesh.AllAreas);
+        NavMesh.CalculatePath(transform.position, hit.position, NavMesh.AllAreas, _navMeshPath);
 
         _pathPoints.Clear();
         _pathPoints.AddRange(_navMeshPath.corners);
         _actualPathPointIndex = 1;  // index = 0 is at actual agent position
 
         // ShowPath();
-
-        return true;
     }
 
-    bool ReGeneratePath()
+    void ReGeneratePath()
     {
-        return GeneratePathTo(_targetPosition);
+        GeneratePathTo(_targetPosition);
     }
 
     public void SetState(State newState)
@@ -208,7 +189,7 @@ public class AiPilot : MonoBehaviour
 
     void ProcessLazyUpdate()
     {
-        if (_needsNewTarget)
+        /*if (_needsNewTarget)  // vyřešeno jinak
         {
             print("regenerating path");
             if (GetRandomTarget())
@@ -217,6 +198,6 @@ public class AiPilot : MonoBehaviour
                 _needsNewTarget = false;
                 SetState(State.GoingToTarget);
             }
-        }
+        }*/
     }
 }

@@ -25,7 +25,9 @@ public class Projectile : MonoBehaviour
     void Update()
     {
         transform.Translate(_forwardVector * Time.deltaTime);
-        // Debug.DrawRay(transform.position, _forwardVector.normalized * _maxRaycastDistance);
+        
+        
+
         Physics.SyncTransforms();
 
         if (_visualizeRaycast)
@@ -60,7 +62,7 @@ public class Projectile : MonoBehaviour
 
         _lastFixedPosition = transform.position;
     }
-
+    
     /*void FixedUpdate()
     {
         if (_visualizeRaycast)

@@ -9,7 +9,7 @@ public class Radar : MonoBehaviour
     Texture2D _textureBackground;
     public static float SceneToRadarRatio = 1;
     public static float RadarToSceneRatio = 1;
-    public float groundSize = 1000;
+    // public float groundSize = 1000;
     public int textureSize = 128;
     Vector2 _halfSize;
     RectTransform _rectTransform;
@@ -22,8 +22,8 @@ public class Radar : MonoBehaviour
         _textureBackground = new (textureSize, textureSize);
         _texture = new (textureSize, textureSize);
         _halfSize = new Vector2 (textureSize, textureSize) / 2f;
-        SceneToRadarRatio = groundSize / textureSize;
-        RadarToSceneRatio = textureSize / groundSize;
+        SceneToRadarRatio = GroundSize / textureSize;
+        RadarToSceneRatio = textureSize / GroundSize;
         _rectTransform = GetComponent<RectTransform>();
         _radius = textureSize / 2f;
         float borderWidth = 1;

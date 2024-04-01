@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
     public int shootableEnvironmentLayer;
     public static List<Tank> Enemies = new();
     public static Tank Player;
+    public static float GroundSize;
 
     void Awake()
     {
@@ -23,5 +24,7 @@ public class GameController : MonoBehaviour
         shootablePlayerLayer = LayerMask.NameToLayer("shootablePlayer");
         shootableEnemyLayer = LayerMask.NameToLayer("shootableEnemy");
         shootableEnvironmentLayer = LayerMask.NameToLayer("shootableEnvironment");
+
+        GroundSize = GameObject.Find("ground").GetComponent<Renderer>().bounds.size.x;
     }
 }
