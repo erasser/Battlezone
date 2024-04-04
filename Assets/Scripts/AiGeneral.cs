@@ -1,19 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameController;
 
 // To be attached to game controller
 
 public class AiGeneral : MonoBehaviour
 {
-    // public static AiGeneral aiGeneral;
-    public AiPilot tankToBeSpawned;
     public List<SpawnLocation> spawnLocations;
     static SpawnData _spawnPassedData;
+    float _transportAltitude;
+    float _transportRadius;
 
     void Start()
     {
         // aiGeneral = this;
+        _transportAltitude = GC.transportPrefab.transform.position.y;
+        _transportRadius = GC.GroundSize / 2 + 150;
 
         List<SpawnData> data = new();
         data.Add(new(1));
@@ -50,9 +53,24 @@ public class AiGeneral : MonoBehaviour
     void SpawnEnemy(SpawnData spawnData)
     {
         SpawnLocation location = spawnData.SpawnLocation ? spawnData.SpawnLocation : spawnLocations[Random.Range(0, spawnLocations.Count)];
-        tankToBeSpawned.transform.position = location.GetRandomPositionInBounds(.69f);
 
-        Instantiate(tankToBeSpawned);
+        var dropPosition = location.GetRandomPositionInBounds(_transportAltitude);
+        // var dropPosition = Vector3.zero;
+        var α = Random.Range(0, 360);
+        Vector3 transportEntryPosition = new(Mathf.Cos(α) * _transportRadius, _transportAltitude, Mathf.Sin(α) * _transportRadius);
+
+        GC.transportPrefab.transform.position = transportEntryPosition;
+        GC.transportPrefab.transform.LookAt(dropPosition, Vector3.up);
+
+        var transport = Instantiate(GC.transportPrefab).GetComponent<Transport>();
+        transport.distanceBeforeDrop = (dropPosition - transportEntryPosition).magnitude;
+
+        // Instantiate(tankToBeSpawned);
     }
+
+    // void SpawnTransport(Vector3 dropPosition)
+    // {
+    //     Instantiate(tankToBeSpawned);
+    // }
 
 }

@@ -284,6 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727287916b4205346ba6bb3495803758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   tr: {fileID: 0}
 --- !u!4 &130660831
 Transform:
@@ -480,6 +481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727287916b4205346ba6bb3495803758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   tr: {fileID: 0}
 --- !u!4 &149552906
 Transform:
@@ -749,12 +751,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cf4b1a8dfa1b194cbe0ca6d59c312cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 9178976289756866860, guid: 6df1138b4b41efc438bd2939d2d9d49a,
+  tankPrefab: {fileID: 2199518834208316114, guid: 2293847a801747e4bbc1d9dff65ed922,
+    type: 3}
+  projectilePrefab: {fileID: 5615737097964383740, guid: 6df1138b4b41efc438bd2939d2d9d49a,
+    type: 3}
+  transportPrefab: {fileID: 901073270827404152, guid: 6cbeaed586c165748b2473971cead006,
     type: 3}
   floatingJoystick: {fileID: 1280477911}
   shootablePlayerLayer: 0
   shootableEnemyLayer: 0
   shootableEnvironmentLayer: 0
+  GroundSize: 0
+  initialTankYPosition: 0
 --- !u!114 &295357398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -767,8 +775,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4eec237cf9cbb2408ec8ff760d2e790, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tankToBeSpawned: {fileID: 2199518834208316114, guid: 2293847a801747e4bbc1d9dff65ed922,
-    type: 3}
   spawnLocations:
   - {fileID: 977495412}
   - {fileID: 1056303294}
@@ -2276,6 +2282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727287916b4205346ba6bb3495803758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   tr: {fileID: 0}
 --- !u!4 &1206561169
 Transform:

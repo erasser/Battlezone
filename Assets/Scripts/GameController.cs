@@ -4,7 +4,9 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public static GameController GC;
-    public GameObject projectilePrefab;
+    public AiPilot tankPrefab;
+    public Projectile projectilePrefab;
+    public Transport transportPrefab;
     // public FixedJoystick fixedJoystick;
     public FloatingJoystick floatingJoystick;
     // public UiClickDetector buttonShootUiDetector;
@@ -16,7 +18,8 @@ public class GameController : MonoBehaviour
     public int shootableEnvironmentLayer;
     public static List<Tank> Enemies = new();
     public static Tank Player;
-    public static float GroundSize;
+    public float GroundSize;
+    public float initialTankYPosition;
 
     void Awake()
     {
@@ -26,5 +29,6 @@ public class GameController : MonoBehaviour
         shootableEnvironmentLayer = LayerMask.NameToLayer("shootableEnvironment");
 
         GroundSize = GameObject.Find("ground").GetComponent<Renderer>().bounds.size.x;
+        initialTankYPosition = tankPrefab.transform.position.y;
     }
 }
