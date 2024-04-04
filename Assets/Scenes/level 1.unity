@@ -757,11 +757,13 @@ MonoBehaviour:
     type: 3}
   transportPrefab: {fileID: 901073270827404152, guid: 6cbeaed586c165748b2473971cead006,
     type: 3}
+  fragmentsPrefab: {fileID: 6135287399629632929, guid: 23c0c6f56e250d74db95a790cd950d20,
+    type: 3}
   floatingJoystick: {fileID: 1280477911}
   shootablePlayerLayer: 0
   shootableEnemyLayer: 0
   shootableEnvironmentLayer: 0
-  GroundSize: 0
+  groundSize: 0
   initialTankYPosition: 0
 --- !u!114 &295357398
 MonoBehaviour:
@@ -1382,7 +1384,7 @@ Transform:
   - {fileID: 940136603}
   - {fileID: 1594101367}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &710075965
 BoxCollider:
@@ -3656,7 +3658,7 @@ PrefabInstance:
     - target: {fileID: 7467112141237078284, guid: 2293847a801747e4bbc1d9dff65ed922,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7467112141237078284, guid: 2293847a801747e4bbc1d9dff65ed922,
         type: 3}

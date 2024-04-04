@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727287916b4205346ba6bb3495803758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   tr: {fileID: 0}
 --- !u!120 &447910898991921029
 LineRenderer:
@@ -58,7 +59,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1005231138721270144}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

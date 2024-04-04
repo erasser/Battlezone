@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
     public AiPilot tankPrefab;
     public Projectile projectilePrefab;
     public Transport transportPrefab;
+    public Fragments fragmentsPrefab;
     // public FixedJoystick fixedJoystick;
     public FloatingJoystick floatingJoystick;
     // public UiClickDetector buttonShootUiDetector;
@@ -18,7 +19,7 @@ public class GameController : MonoBehaviour
     public int shootableEnvironmentLayer;
     public static List<Tank> Enemies = new();
     public static Tank Player;
-    public float GroundSize;
+    public float groundSize;
     public float initialTankYPosition;
 
     void Awake()
@@ -28,7 +29,7 @@ public class GameController : MonoBehaviour
         shootableEnemyLayer = LayerMask.NameToLayer("shootableEnemy");
         shootableEnvironmentLayer = LayerMask.NameToLayer("shootableEnvironment");
 
-        GroundSize = GameObject.Find("ground").GetComponent<Renderer>().bounds.size.x;
+        groundSize = GameObject.Find("ground").GetComponent<Renderer>().bounds.size.x;
         initialTankYPosition = tankPrefab.transform.position.y;
     }
 }

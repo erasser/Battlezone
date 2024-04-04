@@ -22,8 +22,8 @@ public class Radar : MonoBehaviour
         _textureBackground = new (textureSize, textureSize);
         _texture = new (textureSize, textureSize);
         _halfSize = new Vector2 (textureSize, textureSize) / 2f;
-        SceneToRadarRatio = GC.GroundSize / textureSize;
-        RadarToSceneRatio = textureSize / GC.GroundSize;
+        SceneToRadarRatio = GC.groundSize / textureSize;
+        RadarToSceneRatio = textureSize / GC.groundSize;
         _rectTransform = GetComponent<RectTransform>();
         _radius = textureSize / 2f;
         float borderWidth = 1;

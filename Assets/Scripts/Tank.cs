@@ -67,4 +67,16 @@ public class Tank : MonoBehaviour
         projectile.shootableLayerMasks = shootableLayerMasks;
         _lastShotAt = Time.time;
     }
+
+    public void Destroy()
+    {
+        if (_isPlayer)
+            return;
+
+        for (int i = 0; i < 4; ++i)
+            Instantiate(GC.fragmentsPrefab, transform.position, Quaternion.identity);
+
+        Enemies.Remove(this);
+        Destroy(gameObject);
+    }
 }

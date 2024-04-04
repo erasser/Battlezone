@@ -16,16 +16,16 @@ public class AiGeneral : MonoBehaviour
     {
         // aiGeneral = this;
         _transportAltitude = GC.transportPrefab.transform.position.y;
-        _transportRadius = GC.GroundSize / 2 + 150;
+        _transportRadius = GC.groundSize / 2 + 150;
 
         List<SpawnData> data = new();
-        data.Add(new(1));
-        data.Add(new(1, 1));
-        data.Add(new(1, 1));
-        data.Add(new(1, 1));
-        data.Add(new(1, 1));
-        data.Add(new(1, 1));
-        data.Add(new(1, 1));
+        data.Add(new(2));
+        data.Add(new(2, 1));
+        data.Add(new(2, 2));
+        data.Add(new(2, 2));
+        data.Add(new(2, 2));
+        data.Add(new(2, 2));
+        data.Add(new(2, 2));
 
         SpawnSequence(data);
     }

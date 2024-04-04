@@ -4,7 +4,7 @@ using static GameController;
 public class Transport : MonoBehaviour
 {
     public float distanceBeforeDrop;
-    public float speed = 25;
+    public float speed = 60;
     float _distanceTravelled;
     bool _cargoDropped;
 
@@ -14,7 +14,7 @@ public class Transport : MonoBehaviour
         transform.Translate(distance * transform.forward, Space.World);
         _distanceTravelled += distance;
 
-        if (_cargoDropped && _distanceTravelled > GC.GroundSize * 2)  // TODO
+        if (_cargoDropped && _distanceTravelled > GC.groundSize * 2)  // TODO
             Destroy(gameObject);
 
         if (!_cargoDropped && _distanceTravelled > distanceBeforeDrop)

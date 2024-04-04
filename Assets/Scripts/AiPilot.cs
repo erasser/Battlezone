@@ -47,7 +47,7 @@ public class AiPilot : MonoBehaviour
 
     void GoToRandomTarget()
     {
-        _targetPosition = new(Random.Range(- GC.GroundSize / 2, GC.GroundSize / 2), 0, Random.Range(- GC.GroundSize / 2, GC.GroundSize / 2));
+        _targetPosition = new(Random.Range(- GC.groundSize / 2, GC.groundSize / 2), 0, Random.Range(- GC.groundSize / 2, GC.groundSize / 2));
 
         GeneratePathTo(_targetPosition);
 
