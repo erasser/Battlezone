@@ -42,18 +42,17 @@ public class Projectile : MonoBehaviour
         }
 
         _raycastVector = transform.position - _lastFixedPosition;
-        _maxRaycastDistance = _raycastVector.magnitude;
+        _maxRaycastDistance = _raycastVector.magnitude * 2;
 
         if (_visualizeRaycast)
             DebugRays.Add(new(_lastFixedPosition, _raycastVector));
 
         if (Physics.Raycast(_lastFixedPosition, _raycastVector, out _raycastHit, _maxRaycastDistance, shootableLayerMasks))
         {
-            // print("hit: " + _raycastHit.collider.name);
             Destroy(gameObject);
             // _forwardVector = Vector3.zero;  // for debug
             if (!_raycastHit.collider.gameObject.CompareTag("environment"))
-                _raycastHit.collider.gameObject.GetComponent<Tank>().Destroy();
+                _raycastHit.collider.gameObject.GetComponent<Tank>().TakeDamage();
         }
 
         _lastFixedPosition = transform.position;

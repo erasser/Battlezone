@@ -11,23 +11,25 @@ public class AiGeneral : MonoBehaviour
     static SpawnData _spawnPassedData;
     float _transportAltitude;
     float _transportRadius;
+    List<SpawnData> _data = new();
 
     void Start()
     {
         // aiGeneral = this;
         _transportAltitude = GC.transportPrefab.transform.position.y;
-        _transportRadius = GC.groundSize / 2 + 150;
+        _transportRadius = GC.groundSize / 2 + 250;
 
-        List<SpawnData> data = new();
-        data.Add(new(2));
-        data.Add(new(2, 1));
-        data.Add(new(2, 2));
-        data.Add(new(2, 2));
-        data.Add(new(2, 2));
-        data.Add(new(2, 2));
-        data.Add(new(2, 2));
+        _data.Add(new(2));
+        _data.Add(new(2, 1));
+        _data.Add(new(2, 2));
+        _data.Add(new(2, 2));
+        _data.Add(new(2, 2));
+        _data.Add(new(2, 2));
+        _data.Add(new(2, 2));
 
-        SpawnSequence(data);
+        SpawnSequence(_data);
+
+        StartCoroutine(StartSpawnCycle());
     }
 
     public void SpawnSequence(List<SpawnData> spawnSequence)
@@ -68,9 +70,12 @@ public class AiGeneral : MonoBehaviour
         // Instantiate(tankToBeSpawned);
     }
 
-    // void SpawnTransport(Vector3 dropPosition)
-    // {
-    //     Instantiate(tankToBeSpawned);
-    // }
+    IEnumerator StartSpawnCycle()
+    {
+        yield return new WaitForSeconds(Random.Range(20f, 40f));
+
+        SpawnSequence(_data);
+        StartCoroutine(StartSpawnCycle());
+    }
 
 }

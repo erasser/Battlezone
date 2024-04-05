@@ -15,7 +15,7 @@ public class Radar : MonoBehaviour
     RectTransform _rectTransform;
     float _radius;
     float _radiusWithoutBorder;
-    float _zoom = 2;
+    float _zoom = 1;
 
     void Start()
     {
@@ -49,7 +49,7 @@ public class Radar : MonoBehaviour
                 var d = Mathf.Sqrt(Mathf.Pow(center.x - x, 2) + Mathf.Pow(center.y - y, 2));
 
                 if (d < radius - borderWidth)
-                    color = new Color(0, 0, 0, 1f);
+                    color = new Color(0, 0, 0, .9f);
                 else if (IsInRange(d, radius - borderWidth, radius))
                     color = Color.green;
                 else
@@ -84,7 +84,7 @@ public class Radar : MonoBehaviour
             DrawPoint(_texture, ScenePointToRadarPoint(pos), Color.red);
         }
 
-        // DrawPoint(_texture, ScenePointToRadarPoint(Player.transform.position), Color.green);
+        DrawPoint(_texture, ScenePointToRadarPoint(Player.transform.position), Color.green);
 
         _texture.Apply();
     }

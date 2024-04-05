@@ -3,8 +3,9 @@ using static GameController;
 
 public class Transport : MonoBehaviour
 {
+    [HideInInspector]
     public float distanceBeforeDrop;
-    public float speed = 60;
+    public float speed = 100;
     float _distanceTravelled;
     bool _cargoDropped;
 
@@ -14,7 +15,7 @@ public class Transport : MonoBehaviour
         transform.Translate(distance * transform.forward, Space.World);
         _distanceTravelled += distance;
 
-        if (_cargoDropped && _distanceTravelled > GC.groundSize * 2)  // TODO
+        if (_cargoDropped && _distanceTravelled > GC.groundSize * 3)  // TODO
             Destroy(gameObject);
 
         if (!_cargoDropped && _distanceTravelled > distanceBeforeDrop)
@@ -26,6 +27,6 @@ public class Transport : MonoBehaviour
         var tr = transform;
         Instantiate(GC.tankPrefab, tr.position, tr.rotation);
         _cargoDropped = true;
-        speed *= 2;
+        // speed *= 2;
     }
 }

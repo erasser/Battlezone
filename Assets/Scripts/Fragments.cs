@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Fragments : MonoBehaviour
@@ -20,25 +21,16 @@ public class Fragments : MonoBehaviour
             
             rb.AddRelativeForce(explosionDirection.normalized * Random.Range(force / 4, force));
             rb.AddTorque(Random.insideUnitSphere * Random.Range(0, rotationForce));
-
-
-            /*
-            print(fragmentTransform.name);
-            Vector3 explosionDirection = new(Random.Range(-offset, offset), Random.Range(offset / 5, offset), Random.Range(-offset, offset));
-            fragmentTransform.SetParent(null);
-            fragmentTransform.position += explosionDirection;
-            fragmentTransform.rotation = Random.rotation;
-
-            // Vector3 explosionDirection = fragmentTransform.position - transform.position;
-            var rb = fragmentTransform.GetComponent<Rigidbody>();
-            
-            rb.AddForce(explosionDirection.normalized * force);
-            rb.AddTorque(Random.insideUnitSphere * rotationForce);
-
-            // tr.GetComponent<Rigidbody>().AddExplosionForce(force, transform.position, 1);
-            */
         }
 
-        // Destroy(gameObject);
+        StartCoroutine(StartDisableCounter());
     }
+
+     IEnumerator StartDisableCounter()
+     {
+         yield return new WaitForSeconds(Random.Range(10f, 20f));
+
+         foreach (Transform fragmentTransform in transform)
+             fragmentTransform.GetComponent<Rigidbody>().isKinematic = true;
+     }
 }

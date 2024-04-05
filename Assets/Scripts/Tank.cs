@@ -23,6 +23,7 @@ public class Tank : MonoBehaviour
     public LayerMask shootableLayerMasks;  // All layers that this tank shoots
     AiPilot _aiPilot;
     bool _isPlayer;
+    float _health = 100;
 
     void Start()
     {
@@ -43,6 +44,9 @@ public class Tank : MonoBehaviour
     {
         if (_isPlayer || !_isPlayer && _aiPilot.state == AiPilot.State.GoingToTarget)   
             ProcessTransform();
+
+        if (!_isPlayer)
+            CheckAndAttackPlayer();
     }
 
     void ProcessTransform()
@@ -52,7 +56,7 @@ public class Tank : MonoBehaviour
         _forwardVector = speed * controlsForward * Time.deltaTime * transform.forward;
 
         // TODO: Pokud to budou collidery a ne triggery, tohle nebude zapotřebí
-        if (CompareTag("Enemy") || !Physics.BoxCast(transform.position, _halvesExtents, _forwardVector, transform.rotation, _forwardVector.magnitude))
+        if (CompareTag("Enemy") || !Physics.BoxCast(transform.position, _halvesExtents, _forwardVector, transform.rotation, _forwardVector.magnitude, 1 << GC.shootableEnvironmentLayer))
             transform.Translate(_forwardVector, Space.World);
 
         transform.RotateAround(Vector3.up, 4 * controlsLeftRight * Time.deltaTime);
@@ -68,15 +72,35 @@ public class Tank : MonoBehaviour
         _lastShotAt = Time.time;
     }
 
-    public void Destroy()
+    public void TakeDamage()
     {
         if (_isPlayer)
+        {
+            _health -= 1;
+            GC.textHealth.text = "health: " + _health;
+            if (_health == 0)
+            {
+                GC.textHealth.text = "DEAD!";
+                GC.textHealth.color = Color.red;
+                Time.timeScale = 0;
+            }
             return;
+        }
 
         for (int i = 0; i < 4; ++i)
             Instantiate(GC.fragmentsPrefab, transform.position, Quaternion.identity);
 
         Enemies.Remove(this);
         Destroy(gameObject);
+        ++GC.killCount;
+        GC.textKills.text = "kills: " + GC.killCount;
+    }
+
+    void CheckAndAttackPlayer()
+    {
+        var toPlayer = Player.transform.position - transform.position;
+        var angle = Vector3.Angle(toPlayer, transform.forward);
+
+        isShooting = angle < 5;
     }
 }
