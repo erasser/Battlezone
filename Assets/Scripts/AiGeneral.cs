@@ -16,16 +16,16 @@ public class AiGeneral : MonoBehaviour
     void Start()
     {
         // aiGeneral = this;
-        _transportAltitude = GC.transportPrefab.transform.position.y;
-        _transportRadius = GC.groundSize / 2 + 250;
+        _transportAltitude = Gc.transportPrefab.transform.position.y;
+        _transportRadius = Gc.groundSize / 2 + 250;
 
-        _data.Add(new(2));
-        _data.Add(new(2, 1));
-        _data.Add(new(2, 2));
-        _data.Add(new(2, 2));
-        _data.Add(new(2, 2));
-        _data.Add(new(2, 2));
-        _data.Add(new(2, 2));
+        _data.Add(new(1));
+        // _data.Add(new(1, 1));
+        // _data.Add(new(1, 2));
+        // _data.Add(new(2, 2));
+        // _data.Add(new(2, 2));
+        // _data.Add(new(2, 2));
+        // _data.Add(new(3, 3));
 
         SpawnSequence(_data);
 
@@ -61,10 +61,10 @@ public class AiGeneral : MonoBehaviour
         var α = Random.Range(0, 360);
         Vector3 transportEntryPosition = new(Mathf.Cos(α) * _transportRadius, _transportAltitude, Mathf.Sin(α) * _transportRadius);
 
-        GC.transportPrefab.transform.position = transportEntryPosition;
-        GC.transportPrefab.transform.LookAt(dropPosition, Vector3.up);
+        Gc.transportPrefab.transform.position = transportEntryPosition;
+        Gc.transportPrefab.transform.LookAt(dropPosition, Vector3.up);
 
-        var transport = Instantiate(GC.transportPrefab).GetComponent<Transport>();
+        var transport = Instantiate(Gc.transportPrefab).GetComponent<Transport>();
         transport.distanceBeforeDrop = (dropPosition - transportEntryPosition).magnitude;
 
         // Instantiate(tankToBeSpawned);

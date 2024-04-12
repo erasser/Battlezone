@@ -22,8 +22,8 @@ public class Radar : MonoBehaviour
         _textureBackground = new (textureSize, textureSize);
         _texture = new (textureSize, textureSize);
         _halfSize = new Vector2 (textureSize, textureSize) / 2f;
-        SceneToRadarRatio = GC.groundSize / textureSize;
-        RadarToSceneRatio = textureSize / GC.groundSize;
+        SceneToRadarRatio = Gc.groundSize / textureSize;
+        RadarToSceneRatio = textureSize / Gc.groundSize;
         _rectTransform = GetComponent<RectTransform>();
         _radius = textureSize / 2f;
         float borderWidth = 1;
@@ -33,7 +33,7 @@ public class Radar : MonoBehaviour
 
         FilledCircle(_halfSize, _radius, borderWidth);
         // DrawPlayerSightLines(_textureBackground);
-        // GenerateTerrain();
+        GenerateTerrain();
         _textureBackground.Apply();
 
         StartCoroutine(RadarUpdateLoop());
@@ -68,7 +68,7 @@ public class Radar : MonoBehaviour
     {
         for (;;)
         {
-            yield return new WaitForSeconds(.3f);
+            yield return new WaitForSeconds(.1f);
             RadarUpdate();
         }
     }
@@ -97,13 +97,13 @@ public class Radar : MonoBehaviour
     Vector2 ScenePointToRadarPoint(Vector3 point)
     {
         point -= Player.transform.position;
-        return SceneToRadarRatio * _zoom * new Vector2(point.x, point.z) + _halfSize;
+        return RadarToSceneRatio * _zoom * new Vector2(point.x, point.z) + _halfSize;
     }
 
     Vector3 RadarToScenePoint(Vector2 point, float y = 0)
     {
         point -= _halfSize;
-        return RadarToSceneRatio / _zoom * new Vector3(point.x, y, point.y) + Player.transform.position;
+        return SceneToRadarRatio / _zoom * new Vector3(point.x, y, point.y) + Player.transform.position;
     }
 
     void SetPixel(Texture2D texture, Vector2 pixel, Color color, bool checkRadius = false)
@@ -144,7 +144,7 @@ public class Radar : MonoBehaviour
             {
                 var origin = RadarToScenePoint(new(x, y), 20);
 
-                if (!Physics.Raycast(origin, Vector3.down, out hit, Mathf.Infinity, 1 << GameController.GC.shootableEnvironmentLayer)
+                if (!Physics.Raycast(origin, Vector3.down, out hit, Mathf.Infinity, 1 << GameController.Gc.shootableEnvironmentLayer)
                     || hit.point.y < .1f)
                     continue;
 

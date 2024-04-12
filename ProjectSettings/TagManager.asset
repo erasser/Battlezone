@@ -16,11 +16,11 @@ TagManager:
   - shootablePlayer
   - shootableEnemy
   - shootableEnvironment
-  - 
-  - 
-  - 
-  - 
-  - 
+  - clouds
+  - post process
+  - portal 1
+  - portal 2
+  - portal post process
   - 
   - 
   - 

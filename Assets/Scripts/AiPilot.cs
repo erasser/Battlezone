@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -47,7 +48,7 @@ public class AiPilot : MonoBehaviour
 
     void GoToRandomTarget()
     {
-        _targetPosition = new(Random.Range(- GC.groundSize / 2, GC.groundSize / 2), 0, Random.Range(- GC.groundSize / 2, GC.groundSize / 2));
+        _targetPosition = new(Random.Range(- Gc.groundSize / 2, Gc.groundSize / 2), 0, Random.Range(- Gc.groundSize / 2, Gc.groundSize / 2));
 
         GeneratePathTo(_targetPosition);
 
@@ -116,6 +117,18 @@ public class AiPilot : MonoBehaviour
 
     Vector3 GetActualPathPoint()
     {
+        try
+        {
+            var a = _pathPoints[_actualPathPointIndex];
+        }
+        catch (Exception e)
+        {
+            print("• Error:\n" + e);
+            print("name: " + name);
+            print("pathpoints count: " + _pathPoints.Count);
+            print("index: " + _actualPathPointIndex);
+        }
+
         return _pathPoints[_actualPathPointIndex];
     }
 
@@ -216,13 +229,13 @@ public class AiPilot : MonoBehaviour
         var tr = transform;
         tr.Translate(_gravity * Time.deltaTime * Vector3.down);
 
-        if (tr.position.y < GC.initialTankYPosition)
+        if (tr.position.y < GameController.Gc.initialTankYPosition)
         {
             // var position = tr.position;
             // position = new(position.x, GC.initialTankYPosition, position.z);
             // tr.position = position;
 
-            tr.Translate(Vector3.up * (GC.initialTankYPosition - tr.position.y));
+            tr.Translate(Vector3.up * (GameController.Gc.initialTankYPosition - tr.position.y));
 
             GoToRandomTarget();
         }

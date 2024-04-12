@@ -22,7 +22,7 @@ public class Tank : MonoBehaviour
     [HideInInspector]
     public LayerMask shootableLayerMasks;  // All layers that this tank shoots
     AiPilot _aiPilot;
-    bool _isPlayer;
+    public bool isPlayer;
     float _health = 100;
 
     void Start()
@@ -33,20 +33,26 @@ public class Tank : MonoBehaviour
 
         if (CompareTag("Player"))
         {
-            shootableLayerMasks = 1 << GC.shootableEnvironmentLayer | 1 << GC.shootableEnemyLayer;
-            _isPlayer = true;
+            shootableLayerMasks = 1 << Gc.shootableEnvironmentLayer | 1 << Gc.shootableEnemyLayer;
+            isPlayer = true;
         }
         else  // enemy
-            shootableLayerMasks = 1 << GC.shootableEnvironmentLayer | 1 << GC.shootablePlayerLayer;
+            shootableLayerMasks = 1 << Gc.shootableEnvironmentLayer | 1 << Gc.shootablePlayerLayer | 1 << Gc.shootableEnemyLayer;
     }
 
     void Update()
     {
-        if (_isPlayer || !_isPlayer && _aiPilot.state == AiPilot.State.GoingToTarget)   
+        if (isPlayer || !isPlayer && _aiPilot.state == AiPilot.State.GoingToTarget)   
             ProcessTransform();
 
-        if (!_isPlayer)
+        if (!isPlayer)
             CheckAndAttackPlayer();
+
+        if (isPlayer && resetDamageEffectAt != Mathf.Infinity && Time.time >= resetDamageEffectAt)
+        {
+            Gc.ToggleDamage(false);
+            resetDamageEffectAt = Mathf.Infinity;
+        }
     }
 
     void ProcessTransform()
@@ -56,7 +62,7 @@ public class Tank : MonoBehaviour
         _forwardVector = speed * controlsForward * Time.deltaTime * transform.forward;
 
         // TODO: Pokud to budou collidery a ne triggery, tohle nebude zapotřebí
-        if (CompareTag("Enemy") || !Physics.BoxCast(transform.position, _halvesExtents, _forwardVector, transform.rotation, _forwardVector.magnitude, 1 << GC.shootableEnvironmentLayer))
+        if (CompareTag("Enemy") || !Physics.BoxCast(transform.position, _halvesExtents, _forwardVector, transform.rotation, _forwardVector.magnitude, 1 << Gc.shootableEnvironmentLayer))
             transform.Translate(_forwardVector, Space.World);
 
         transform.RotateAround(Vector3.up, 4 * controlsLeftRight * Time.deltaTime);
@@ -67,33 +73,36 @@ public class Tank : MonoBehaviour
         if (!isShooting || _lastShotAt + shootDelay > Time.time)
             return;
 
-        var projectile = Instantiate(GC.projectilePrefab, shootSource.position, transform.rotation).GetComponent<Projectile>();
+        var projectile = Instantiate(Gc.projectilePrefab, shootSource.position, transform.rotation).GetComponent<Projectile>();
         projectile.shootableLayerMasks = shootableLayerMasks;
+        projectile.wasShotByPlayer = isPlayer;
         _lastShotAt = Time.time;
     }
 
     public void TakeDamage()
     {
-        if (_isPlayer)
+        if (isPlayer)
         {
             _health -= 1;
-            GC.textHealth.text = "health: " + _health;
+            Gc.textHealth.text = "health: " + _health;
+            Gc.ToggleDamage(true);
+
             if (_health == 0)
             {
-                GC.textHealth.text = "DEAD!";
-                GC.textHealth.color = Color.red;
+                Gc.textHealth.text = "DEAD!";
+                Gc.textHealth.color = Color.red;
                 Time.timeScale = 0;
             }
             return;
         }
 
-        for (int i = 0; i < 4; ++i)
-            Instantiate(GC.fragmentsPrefab, transform.position, Quaternion.identity);
+        for (int i = 0; i < 8; ++i)
+            Instantiate(Gc.fragmentsPrefab, transform.position, Quaternion.identity);
 
         Enemies.Remove(this);
         Destroy(gameObject);
-        ++GC.killCount;
-        GC.textKills.text = "kills: " + GC.killCount;
+        ++Gc.killCount;
+        Gc.textKills.text = "kills: " + Gc.killCount;
     }
 
     void CheckAndAttackPlayer()

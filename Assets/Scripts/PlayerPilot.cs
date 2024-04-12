@@ -33,8 +33,8 @@ public class PlayerPilot : MonoBehaviour
 
     void ProcessControlsMobile()
     {
-        _tank.controlsForward = GameController.GC.floatingJoystick.Vertical;
-        _tank.controlsLeftRight = GameController.GC.floatingJoystick.Horizontal * .3f;
+        _tank.controlsForward = GameController.Gc.floatingJoystick.Vertical;
+        _tank.controlsLeftRight = GameController.Gc.floatingJoystick.Horizontal * .3f;
     }
 
 }

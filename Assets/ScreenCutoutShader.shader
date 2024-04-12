@@ -32,16 +32,18 @@ Shader "Unlit/ScreenCutoutShader"
 
 			struct v2f
 			{
-				//float2 uv : TEXCOORD0;
+				float2 uv : TEXCOORD0;
 				float4 vertex : SV_POSITION;
 				float4 screenPos : TEXCOORD1;
 			};
 
+			float4 _MainTex_ST;
 			v2f vert (appdata v)
 			{
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.screenPos = ComputeScreenPos(o.vertex);
+				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				return o;
 			}
 			

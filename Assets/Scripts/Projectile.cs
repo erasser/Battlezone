@@ -1,4 +1,3 @@
-using static GameController;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -6,6 +5,7 @@ using Random = UnityEngine.Random;
 public class Projectile : MonoBehaviour
 {
     public float speed = 80;
+    public float rotationSpeed = 5;
     Vector3 _forwardVector;
     static float _maxRaycastDistance;
     RaycastHit _raycastHit;
@@ -14,21 +14,26 @@ public class Projectile : MonoBehaviour
     public List<Ray> DebugRays = new ();
     bool _visualizeRaycast = false;
     Vector3 _raycastVector;
+    Vector3 _permanentRotationAxis;
+    public bool wasShotByPlayer;
 
     void Start()
     {
-        _forwardVector = new(0, 0, speed);
-        // _maxRaycastDistance = speed * Time.fixedDeltaTime * 2;
+        // _forwardVector = new(0, 0, speed); 
+        _forwardVector = transform.forward * speed; 
         _lastFixedPosition = transform.position;
+        _permanentRotationAxis = new(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
     }
 
     void Update()
     {
-        transform.Translate(_forwardVector * Time.deltaTime);
-        
-        
+        var tr = transform;
 
-        Physics.SyncTransforms();
+        transform.Translate(_forwardVector * Time.deltaTime, Space.World);
+
+        transform.Rotate(_permanentRotationAxis, Time.deltaTime * rotationSpeed);
+
+        // Physics.SyncTransforms();
 
         if (_visualizeRaycast)
             foreach (Ray ray in DebugRays)
@@ -50,14 +55,19 @@ public class Projectile : MonoBehaviour
         if (Physics.Raycast(_lastFixedPosition, _raycastVector, out _raycastHit, _maxRaycastDistance, shootableLayerMasks))
         {
             Destroy(gameObject);
-            // _forwardVector = Vector3.zero;  // for debug
-            if (!_raycastHit.collider.gameObject.CompareTag("environment"))
-                _raycastHit.collider.gameObject.GetComponent<Tank>().TakeDamage();
+
+            Tank tank = _raycastHit.collider.gameObject.GetComponent<Tank>();
+
+            if (!tank)
+                return;
+
+            if (wasShotByPlayer && !tank.isPlayer || !wasShotByPlayer && tank.isPlayer)
+                tank.TakeDamage();
         }
 
         _lastFixedPosition = transform.position;
     }
-    
+
     /*void FixedUpdate()
     {
         if (_visualizeRaycast)
@@ -84,19 +94,4 @@ public class Projectile : MonoBehaviour
 
         _lastFixedPosition = transform.position;
     }*/
-
-    /*void OnTriggerEnter(Collider other)
-    {
-        print("hit: " + other.name + ", tag: " + other.tag);
-        Destroy(gameObject);
-        if (!other.CompareTag("environment"))    // TODO: Use layer
-            Destroy(other.gameObject);
-    }*/
-
-    // void OnCollisionEnter(Collision other)  // ForGround, which cannot be concave & a trigger
-    // {
-    //     Destroy(gameObject);
-    //     if (!other.collider.gameObject.CompareTag("environment"))    // TODO: Use layer
-    //         Destroy(other.gameObject);
-    // }
 }

@@ -65,7 +65,7 @@ Material:
     - _BumpScale: 1
     - _CapSize: 1
     - _Caps: 0
-    - _CullingSetting: 0
+    - _CullingSetting: 2
     - _Cutoff: 0.5
     - _DepthBias: 0
     - _DetailNormalMapScale: 1
@@ -85,7 +85,7 @@ Material:
     - _TransitionSetting: 1
     - _TransitionThickness: 0.75
     - _UVSec: 0
-    - _WireThickness: 1
+    - _WireThickness: 0
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
