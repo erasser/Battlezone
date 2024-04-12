@@ -20,8 +20,8 @@ public class AiGeneral : MonoBehaviour
         _transportRadius = Gc.groundSize / 2 + 250;
 
         _data.Add(new(1));
-        // _data.Add(new(1, 1));
-        // _data.Add(new(1, 2));
+        _data.Add(new(1, 1));
+        _data.Add(new(1, 2));
         // _data.Add(new(2, 2));
         // _data.Add(new(2, 2));
         // _data.Add(new(2, 2));

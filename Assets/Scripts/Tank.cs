@@ -1,5 +1,6 @@
 using UnityEngine;
 using static GameController;
+using static SoundManager;
 
 // No Physics
 
@@ -100,9 +101,10 @@ public class Tank : MonoBehaviour
             Instantiate(Gc.fragmentsPrefab, transform.position, Quaternion.identity);
 
         Enemies.Remove(this);
-        Destroy(gameObject);
         ++Gc.killCount;
         Gc.textKills.text = "kills: " + Gc.killCount;
+        Sm.PlayClip(Sm.tankDestroyEffect, gameObject);
+        Destroy(gameObject);
     }
 
     void CheckAndAttackPlayer()

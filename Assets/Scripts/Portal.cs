@@ -8,7 +8,9 @@ public class Portal : MonoBehaviour
     // public int listIndex;
     Transform _cameraTransform;
     float _maxTriggerDistance;
+    [HideInInspector]
     public Portal otherPortal;
+    public AudioSource audioSourceTeleport;
 
     void Awake()
     {
@@ -16,6 +18,7 @@ public class Portal : MonoBehaviour
         Portals.Add(this);
 
         otherPortal = transform.GetComponentInChildren<PortalCamera>().portal.GetComponent<Portal>();  // Jo to other portal, ale přiřadil jsem jim ty kamery prohozeně
+        audioSourceTeleport = GetComponent<AudioSource>();
     }
 
     void Start()

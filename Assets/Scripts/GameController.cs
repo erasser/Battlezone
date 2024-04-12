@@ -43,7 +43,6 @@ public class GameController : MonoBehaviour
     // public Transform portal1;
     // public Transform portal2;
     public static float resetDamageEffectAt;
-    public AudioSource audioSource;
 
     void Awake()
     {
@@ -62,7 +61,6 @@ public class GameController : MonoBehaviour
         var ppVolume = GetComponent<PostProcessVolume>();
         chromaticAberration = ppVolume.profile.GetSetting<ChromaticAberration>();
         colorGrading = ppVolume.profile.GetSetting<ColorGrading>();
-        audioSource = GetComponent<AudioSource>();
     }
 
     public void RestartLevel()

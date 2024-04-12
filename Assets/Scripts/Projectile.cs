@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static SoundManager;
 using Random = UnityEngine.Random;
 
 public class Projectile : MonoBehaviour
@@ -10,12 +11,15 @@ public class Projectile : MonoBehaviour
     static float _maxRaycastDistance;
     RaycastHit _raycastHit;
     Vector3 _lastFixedPosition;
+    [HideInInspector]
     public LayerMask shootableLayerMasks;
     public List<Ray> DebugRays = new ();
     bool _visualizeRaycast = false;
     Vector3 _raycastVector;
     Vector3 _permanentRotationAxis;
     public bool wasShotByPlayer;
+    [HideInInspector]
+    public AudioSource audioSource;
 
     void Start()
     {
@@ -23,6 +27,9 @@ public class Projectile : MonoBehaviour
         _forwardVector = transform.forward * speed; 
         _lastFixedPosition = transform.position;
         _permanentRotationAxis = new(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
+        // audioSource = GetComponent<AudioSource>();
+        // audioSource.PlayOneShot(audioClipShotEffect);
+        Sm.PlayClip(Sm.shotEffect, gameObject);
     }
 
     void Update()
@@ -54,7 +61,7 @@ public class Projectile : MonoBehaviour
 
         if (Physics.Raycast(_lastFixedPosition, _raycastVector, out _raycastHit, _maxRaycastDistance, shootableLayerMasks))
         {
-            Destroy(gameObject);
+            DestroyProjectile();
 
             Tank tank = _raycastHit.collider.gameObject.GetComponent<Tank>();
 
@@ -66,6 +73,12 @@ public class Projectile : MonoBehaviour
         }
 
         _lastFixedPosition = transform.position;
+    }
+
+    void DestroyProjectile()
+    {
+        Sm.PlayClip(Sm.projectileDestroyEffect, gameObject);
+        Destroy(gameObject);
     }
 
     /*void FixedUpdate()
