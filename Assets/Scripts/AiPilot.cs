@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 using static GameController;
+[RequireComponent(typeof(Tank))]
 
 public class AiPilot : MonoBehaviour
 {
@@ -78,7 +79,7 @@ public class AiPilot : MonoBehaviour
         _pathPoints.AddRange(_navMeshPath.corners);
         _actualPathPointIndex = 1;  // index = 0 is at actual agent position
 
-        // ShowPath();
+        ShowPath();
     }
 
     void ReGeneratePath()
@@ -137,8 +138,8 @@ public class AiPilot : MonoBehaviour
         if (state == State.Dropping)
             ProcessFalling();
 
-        else if (state == State.StandingStill)
-            ProcessStandingStill();
+        // else if (state == State.StandingStill)
+        //     ProcessStandingStill();
 
         else if (state == State.GoingToTarget)
             ProcessGoingToTarget();
@@ -146,8 +147,8 @@ public class AiPilot : MonoBehaviour
 
     void ProcessStandingStill()
     {
-        _tank.controlsForward = 0;
-        _tank.controlsLeftRight = 0;
+        // _tank.controlsForward = 0;
+        // _tank.controlsLeftRight = 0;
     }
 
     void ProcessGoingToTarget()
@@ -157,22 +158,8 @@ public class AiPilot : MonoBehaviour
 
         // TODO: stačí .DOT
         var angle = Vector3.SignedAngle(_toPathPointV3, transform.forward, Vector3.up);
-        
-        if (angle < - 2)
-        {
-            _tank.controlsLeftRight = 1;
-            // _tank.controlsForward = 1;
-        }
-        else if (angle > 2)
-        {
-            _tank.controlsLeftRight = - 1;
-            // _tank.controlsForward = 1;
-        }
-        else
-        {
-            _tank.controlsLeftRight = 0;
-            // _tank.controlsForward = 0;
-        }
+
+        transform.RotateAround(Vector3.up, - .03f * angle * Time.deltaTime);
 
         // var dot = Vector3.Dot(_toPathPointV3, transform.forward);
         //
@@ -240,4 +227,10 @@ public class AiPilot : MonoBehaviour
             GoToRandomTarget();
         }
     }
+
+    void Rotate()
+    {
+        transform.RotateAround(Vector3.up, 4 * _tank.controlsLeftRight * Time.deltaTime);
+    }
+
 }

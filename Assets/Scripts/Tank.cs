@@ -65,8 +65,6 @@ public class Tank : MonoBehaviour
         // TODO: Pokud to budou collidery a ne triggery, tohle nebude zapotřebí
         if (CompareTag("Enemy") || !Physics.BoxCast(transform.position, _halvesExtents, _forwardVector, transform.rotation, _forwardVector.magnitude, 1 << Gc.shootableEnvironmentLayer))
             transform.Translate(_forwardVector, Space.World);
-
-        transform.RotateAround(Vector3.up, 4 * controlsLeftRight * Time.deltaTime);
     }
 
     void AutoShoot()

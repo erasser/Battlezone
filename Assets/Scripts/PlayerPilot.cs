@@ -1,5 +1,6 @@
 using UnityEngine;
 using static GameController;
+[RequireComponent(typeof(Tank))]
 
 public class PlayerPilot : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class PlayerPilot : MonoBehaviour
         #else
             ProcessControlsMobile();
         #endif
+        
+        Rotate();
     }
 
     void ProcessControls()
@@ -29,6 +32,11 @@ public class PlayerPilot : MonoBehaviour
             _tank.isShooting = true;
         else if (Input.GetKeyUp(KeyCode.Space))
             _tank.isShooting = false;
+    }
+
+    void Rotate()
+    {
+        transform.RotateAround(Vector3.up, 4 * _tank.controlsLeftRight * Time.deltaTime);
     }
 
     void ProcessControlsMobile()

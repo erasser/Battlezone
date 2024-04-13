@@ -32,6 +32,7 @@ public class WobbleEffect : MonoBehaviour
 
         tr.localScale = new(xz, y, xz);
 
+        // TODO: To už možná řeší samotný posunutý pivot?
         // var yIncrement = _boxCollider.bounds.; 
         // var Y = _initialYPosition + yIncrement;
         // var position = tr.position;

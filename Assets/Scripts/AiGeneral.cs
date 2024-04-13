@@ -20,8 +20,8 @@ public class AiGeneral : MonoBehaviour
         _transportRadius = Gc.groundSize / 2 + 250;
 
         _data.Add(new(1));
-        _data.Add(new(1, 1));
-        _data.Add(new(1, 2));
+        // _data.Add(new(1, 1));
+        // _data.Add(new(1, 2));
         // _data.Add(new(2, 2));
         // _data.Add(new(2, 2));
         // _data.Add(new(2, 2));
@@ -72,7 +72,7 @@ public class AiGeneral : MonoBehaviour
 
     IEnumerator StartSpawnCycle()
     {
-        yield return new WaitForSeconds(Random.Range(20f, 40f));
+        yield return new WaitForSeconds(Random.Range(2000f, 4000f));
 
         SpawnSequence(_data);
         StartCoroutine(StartSpawnCycle());
