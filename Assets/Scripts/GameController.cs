@@ -1,11 +1,10 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
-using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 
 public class GameController : MonoBehaviour
 {
@@ -43,6 +42,8 @@ public class GameController : MonoBehaviour
     // public Transform portal1;
     // public Transform portal2;
     public static float resetDamageEffectAt;
+    public Image damageDirectionIndicatorPrefab;
+    public GameObject ui;
 
     void Awake()
     {
@@ -61,6 +62,7 @@ public class GameController : MonoBehaviour
         var ppVolume = GetComponent<PostProcessVolume>();
         chromaticAberration = ppVolume.profile.GetSetting<ChromaticAberration>();
         colorGrading = ppVolume.profile.GetSetting<ColorGrading>();
+        ui = GameObject.Find("UI");
     }
 
     public void RestartLevel()
@@ -92,16 +94,25 @@ public class GameController : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    public void ToggleDamage(bool enable)
+    public void ToggleDamageEffect(bool enable)
     {
         foreach (GameObject element in damageUiElements)
             element.SetActive(enable);
 
-        resetDamageEffectAt = Time.time + .3f;
+        resetDamageEffectAt = Time.time + .3f;  // Ale ťuťu, zde není použitý enumerator
         chromaticAberration.intensity.value = enable ? 1 : 0;
         colorGrading.saturation.value = enable ? -50 : 0;
         colorGrading.contrast.value = enable ? 100 : 0;
         // Gc.chromaticAberration.enabled.value = enable;
-
     }
+    
+    public void ToggleDamageEffect(bool enable, Vector3 shotInitialPosition)
+    {
+        ToggleDamageEffect(enable);
+
+        var newIndicator = Instantiate(Gc.damageDirectionIndicatorPrefab, Gc.ui.transform).GetComponent<DamageDirectionIndicator>();
+        newIndicator.shotInitialPosition = shotInitialPosition;
+        
+    }
+
 }

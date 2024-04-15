@@ -222,7 +222,7 @@ public class AiPilot : MonoBehaviour
             // position = new(position.x, GC.initialTankYPosition, position.z);
             // tr.position = position;
 
-            tr.Translate(Vector3.up * (GameController.Gc.initialTankYPosition - tr.position.y));
+            tr.Translate(Vector3.up * (Gc.initialTankYPosition - tr.position.y));
 
             GoToRandomTarget();
         }

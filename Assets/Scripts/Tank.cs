@@ -51,7 +51,7 @@ public class Tank : MonoBehaviour
 
         if (isPlayer && resetDamageEffectAt != Mathf.Infinity && Time.time >= resetDamageEffectAt)
         {
-            Gc.ToggleDamage(false);
+            Gc.ToggleDamageEffect(false);
             resetDamageEffectAt = Mathf.Infinity;
         }
     }
@@ -78,13 +78,13 @@ public class Tank : MonoBehaviour
         _lastShotAt = Time.time;
     }
 
-    public void TakeDamage()
+    public void TakeDamage(Vector3 shotInitialPosition)
     {
         if (isPlayer)
         {
             _health -= 1;
             Gc.textHealth.text = "health: " + _health;
-            Gc.ToggleDamage(true);
+            Gc.ToggleDamageEffect(true, shotInitialPosition);
 
             if (_health == 0)
             {

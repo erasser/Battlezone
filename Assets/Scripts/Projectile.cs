@@ -18,13 +18,13 @@ public class Projectile : MonoBehaviour
     Vector3 _raycastVector;
     Vector3 _permanentRotationAxis;
     public bool wasShotByPlayer;
-    [HideInInspector]
-    public AudioSource audioSource;
+    Vector3 _initialPosition;
 
     void Start()
     {
         // _forwardVector = new(0, 0, speed); 
-        _forwardVector = transform.forward * speed; 
+        _forwardVector = transform.forward * speed;
+        _initialPosition = transform.position;
         _lastFixedPosition = transform.position;
         _permanentRotationAxis = new(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
         // audioSource = GetComponent<AudioSource>();
@@ -69,7 +69,8 @@ public class Projectile : MonoBehaviour
                 return;
 
             if (wasShotByPlayer && !tank.isPlayer || !wasShotByPlayer && tank.isPlayer)
-                tank.TakeDamage();
+                // tank.TakeDamage(_forwardVector);
+                tank.TakeDamage(_initialPosition);
         }
 
         _lastFixedPosition = transform.position;
