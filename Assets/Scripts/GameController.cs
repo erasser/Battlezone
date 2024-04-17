@@ -36,7 +36,9 @@ public class GameController : MonoBehaviour
     public Camera camera2;
     public Image crosshair1;
     public Image crosshair2;
+    [HideInInspector]
     public ChromaticAberration chromaticAberration;
+    [HideInInspector]
     public ColorGrading colorGrading;
     public List<GameObject> damageUiElements;
     // public Transform portal1;

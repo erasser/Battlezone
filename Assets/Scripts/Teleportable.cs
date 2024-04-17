@@ -6,10 +6,12 @@ public class Teleportable : MonoBehaviour
 {
     public static float DistanceToTeleport = 4;
     public static float SqrDistanceToTeleport;
+    Vector3 _lastPosition;
 
     void Start()
     {
         SqrDistanceToTeleport = Mathf.Pow(DistanceToTeleport, 2);
+        _lastPosition = transform.position;
     }
 
     void Update()
@@ -17,6 +19,8 @@ public class Teleportable : MonoBehaviour
         foreach (Portal portal in Portals)
             if (GetXZDistanceToPortal(portal.transform.position) < SqrDistanceToTeleport)
                 TeleportObjectTo(portal.otherPortal);
+
+        _lastPosition = transform.position;
     }
 
     float GetXZDistanceToPortal(Vector3 portalPosition)
@@ -30,16 +34,29 @@ public class Teleportable : MonoBehaviour
         // dummy.transform.localScale = Vector3.left * .3f;
         // dummy.transform.position = transform.position;
 
+        // RaycastHit hit;
+        // var result = Physics.Raycast(transform.position, transform.position - _lastPosition, out hit);  // TODO: jen portaly
+        // Vector3 offset;
+        // if (!result)
+        //     offset = Vector3.zero;
+        // else
+        //     offset = hit.point - targetPortal.otherPortal.transform.position;
+
+        
         var tr = transform;
         var pos = targetPortal.transform.position;
         tr.position = new Vector3(pos.x, tr.position.y, pos.z) - targetPortal.transform.forward * (DistanceToTeleport + 1);
-        var offset = tr.position - targetPortal.otherPortal.transform.position;  // targetPortal.otherPortal = this portal LOL
-        // tr.position = pos + offset - targetPortal.transform.forward * (DistanceToTeleport + 1);
-        tr.Translate(new(- offset.z, 0, - offset.x));
+        // tr.position = offset + pos - targetPortal.transform.forward * (DistanceToTeleport + 1);
+        // tr.position = new Vector3(tr.position.x, tr.position.y, tr.position.z);
+// TODO
+        // tr.Translate(offset);
 
-        // TODO...
+        // tr.position = pos;
+        // tr.Translate(offset);
+
         // Time.timeScale = 0;
         
+
         Sm.PlayClip(Sm.teleportEffect, gameObject);
     }
 

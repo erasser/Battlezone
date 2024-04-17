@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PortalTextureSetup : MonoBehaviour {
@@ -16,14 +14,15 @@ public class PortalTextureSetup : MonoBehaviour {
 		{
 			cameraA.targetTexture.Release();
 		}
-		cameraA.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
+		cameraA.targetTexture = new RenderTexture(Screen.width / 4, Screen.height / 4, 0);
+
 		cameraMatA.mainTexture = cameraA.targetTexture;
 
 		if (cameraB.targetTexture != null)
 		{
 			cameraB.targetTexture.Release();
 		}
-		cameraB.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
+		cameraB.targetTexture = new RenderTexture(Screen.width / 4, Screen.height / 4, 0);
 		cameraMatB.mainTexture = cameraB.targetTexture;
 	}
 	

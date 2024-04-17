@@ -19,13 +19,12 @@ public class AiGeneral : MonoBehaviour
         _transportAltitude = Gc.transportPrefab.transform.position.y;
         _transportRadius = Gc.groundSize / 2 + 250;
 
-        _data.Add(new(1));
-        _data.Add(new(1, 1));
-        // _data.Add(new(1, 2));
-        // _data.Add(new(2, 2));
-        // _data.Add(new(2, 2));
-        // _data.Add(new(2, 2));
-        // _data.Add(new(3, 3));
+        _data.Add(new(3));
+        _data.Add(new(1, 3));
+        _data.Add(new(1, 4));
+        _data.Add(new(2, 4));
+        _data.Add(new(3, 4));
+        _data.Add(new(2, 3));
 
         SpawnSequence(_data);
 
@@ -72,7 +71,7 @@ public class AiGeneral : MonoBehaviour
 
     IEnumerator StartSpawnCycle()
     {
-        yield return new WaitForSeconds(Random.Range(2000f, 4000f));
+        yield return new WaitForSeconds(Random.Range(30f, 50f));
 
         SpawnSequence(_data);
         StartCoroutine(StartSpawnCycle());

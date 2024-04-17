@@ -33,7 +33,7 @@ public class Radar : MonoBehaviour
 
         FilledCircle(_halfSize, _radius, borderWidth);
         // DrawPlayerSightLines(_textureBackground);
-        GenerateTerrain();
+        // GenerateTerrain();
         _textureBackground.Apply();
 
         StartCoroutine(RadarUpdateLoop());

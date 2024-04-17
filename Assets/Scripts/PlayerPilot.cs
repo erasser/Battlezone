@@ -1,5 +1,7 @@
 using UnityEngine;
 using static GameController;
+using static Portal;
+
 [RequireComponent(typeof(Tank))]
 
 public class PlayerPilot : MonoBehaviour
@@ -21,6 +23,8 @@ public class PlayerPilot : MonoBehaviour
         #endif
         
         Rotate();
+
+        // CheckPortals();
     }
 
     void ProcessControls()
@@ -41,8 +45,16 @@ public class PlayerPilot : MonoBehaviour
 
     void ProcessControlsMobile()
     {
-        _tank.controlsForward = GameController.Gc.floatingJoystick.Vertical;
-        _tank.controlsLeftRight = GameController.Gc.floatingJoystick.Horizontal * .3f;
+        _tank.controlsForward = Gc.floatingJoystick.Vertical;
+        _tank.controlsLeftRight = Gc.floatingJoystick.Horizontal * .3f;
+    }
+
+    void CheckPortals()
+    {
+        var enableFirst = (Portals[0].transform.position - transform.position).sqrMagnitude < (Portals[1].transform.position - transform.position).sqrMagnitude;
+
+        Portals[0].gameObject.SetActive(enableFirst);
+        Portals[1].gameObject.SetActive(!enableFirst);
     }
 
 }
